@@ -1,6 +1,5 @@
 import { VisitaRepository } from "@/modules/visitas/visita.repository";
 import { VisitaService } from "@/modules/visitas/visita.service";
-import type { VisitaCompleta } from "@/modules/visitas/types";
 import Link from "next/link";
 
 export const metadata = { title: "Visitas" };
@@ -42,6 +41,7 @@ export default async function VisitasPage() {
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
+              <th className="text-left px-4 py-3 font-semibold text-gray-600">ID</th>
               <th className="text-left px-4 py-3 font-semibold text-gray-600">Fecha</th>
               <th className="text-left px-4 py-3 font-semibold text-gray-600">Hora</th>
               <th className="text-left px-4 py-3 font-semibold text-gray-600">Paciente</th>
@@ -49,19 +49,25 @@ export default async function VisitasPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {visitas.map((visita: VisitaCompleta, index: number) => (
-              <tr key={visita.visitaId || index} className="hover:bg-gray-50 transition-colors">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {visitas.map((visita: any, index: number) => (
+              <tr key={visita.visitaid || visita.visitaId || index} className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-gray-500">{visita.visitaid || visita.visitaId}</td>
                 <td className="px-4 py-3 text-gray-600">{visita.fecha}</td>
                 <td className="px-4 py-3 text-gray-600">{visita.hora}</td>
                 <td className="px-4 py-3 font-medium text-gray-900">
-                  {typeof visita.paciente === "object"
-                    ? `${visita.paciente?.nombre} ${visita.paciente?.apellido}`
-                    : `Paciente ${visita.pacienteId}`}
+                  {visita.pacientes?.nombre
+                    ? `${visita.pacientes.nombre} ${visita.pacientes.apellido}`
+                    : visita.paciente?.nombre
+                    ? `${visita.paciente.nombre} ${visita.paciente.apellido}`
+                    : `Paciente ${visita.pacienteid || visita.pacienteId}`}
                 </td>
                 <td className="px-4 py-3 text-gray-600">
-                  {typeof visita.medico === "object"
-                    ? `Dr. ${visita.medico?.nombre} ${visita.medico?.apellido}`
-                    : `Medico ${visita.medicoId}`}
+                  {visita.medicos?.nombre
+                    ? `Dr. ${visita.medicos.nombre} ${visita.medicos.apellido}`
+                    : visita.medico?.nombre
+                    ? `Dr. ${visita.medico.nombre} ${visita.medico.apellido}`
+                    : `Medico ${visita.medicoid || visita.medicoId}`}
                 </td>
               </tr>
             ))}
