@@ -35,6 +35,7 @@ export default async function MedicosPage() {
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
+              <th className="text-left px-4 py-3 font-semibold text-gray-600">ID</th>
               <th className="text-left px-4 py-3 font-semibold text-gray-600">Nombre</th>
               <th className="text-left px-4 py-3 font-semibold text-gray-600">Especialidad</th>
               <th className="text-left px-4 py-3 font-semibold text-gray-600">Hospital</th>
@@ -45,6 +46,7 @@ export default async function MedicosPage() {
           <tbody className="divide-y divide-gray-100">
             {medicos.map((medico: MedicoConRelaciones) => (
               <tr key={medico.medicoId} className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-3 text-gray-500">{medico.medicoId}</td>
                 <td className="px-4 py-3 font-medium text-gray-900">
                   {medico.nombre} {medico.apellido}
                 </td>
